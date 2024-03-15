@@ -1,0 +1,81 @@
+/*
+struct Node
+{
+ int data;
+ struct Node *next;
+ 
+ Node(int x){
+     data =x;
+     next = NULL;
+ }
+};
+*/
+
+class Solution
+{
+    public:
+    // your task is to complete this function
+   void reverse(Node** head) {
+        Node* currPtr = *head, *prevPtr = NULL;
+        
+        while(currPtr != NULL) {
+            Node* nextPtr = currPtr -> next;
+            
+            currPtr -> next = prevPtr;
+            prevPtr = currPtr;
+            currPtr = nextPtr;
+        }
+        *head = prevPtr;
+        return;
+    }
+    
+    void sort(Node **head)
+    {
+         // Code here 
+        // Split the linked list into ascending part and descending part
+        Node* asc = *head, *desc = asc -> next;
+        Node* descStart = desc;
+        
+        while(asc -> next && desc -> next) {
+            asc -> next = desc -> next;
+            asc = asc -> next;
+            
+            desc -> next = asc -> next;
+            desc = desc -> next;
+        }
+        reverse(&descStart); // reverse the descending part to make it ascending
+        
+        Node* ans = new Node(-1);
+        Node* ptr = ans;
+        Node* temp = *head;
+        
+
+        // Store in sorted order
+        while(temp != asc -> next && descStart != NULL) {
+            if(temp -> data < descStart -> data) {
+                ptr -> next = new Node(temp -> data);
+                temp = temp -> next;
+            } else {
+                ptr -> next = new Node(descStart -> data);
+                descStart = descStart -> next;
+            }
+            ptr = ptr -> next;
+        }
+        
+        while(temp != asc -> next){
+            ptr -> next = new Node(temp -> data);
+            temp = temp -> next;
+            ptr = ptr -> next;
+        }
+        
+        while(descStart) {
+            ptr -> next = new Node(descStart -> data);
+            descStart = descStart -> next;
+            ptr = ptr -> next;
+        }
+        
+        *head = ans -> next;
+        
+        return;
+    }
+};
