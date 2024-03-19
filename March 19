@@ -1,0 +1,75 @@
+class dsu{
+    public:
+    
+    vector<int> sz,par;
+    int edges;
+    
+    dsu(int n){
+        par.resize(n);
+        sz.resize(n,1);
+        
+        for(int i=0;i<n;++i) par[i]=i;
+        edges=0;
+    }
+    
+    int get(){
+        return edges;
+    }
+    
+    int getPar(int a){
+        if(par[a]==a) return a;
+        return par[a]=getPar(par[a]);
+    }
+    
+    void merge(int a,int b){
+        int para=getPar(a),parb=getPar(b);
+        if(para==parb) return ;
+        
+        if(sz[parb]>sz[para]) swap(para,parb);
+        
+        edges-=(sz[parb]*(sz[parb]-1))/2;
+        edges-=(sz[para]*(sz[para]-1))/2;
+        sz[para]+=sz[parb];
+        edges+=(sz[para]*(sz[para]-1))/2;
+        par[parb]=para;
+    }
+};
+
+class Solution{
+ public:
+ vector<int> maximumWeight(int n, vector<vector<int>> edges, int q, vector<int> &queries)
+ {
+     // code here
+     
+     // number of paths = remove all edges with wt>= given weight and
+     // count number of edges in disjoint trees
+     
+     sort(edges.begin(),edges.end(), [&](vector<int>&a,vector<int>&b){
+         return b[2]>a[2];
+     });
+     
+     vector<int> ans(q);
+     vector<pair<int,int>> qq;
+     
+     for(int i=0;i<q;++i) qq.push_back({queries[i],i});
+     sort(qq.begin(),qq.end());
+     
+     int i=0,sz=edges.size();
+     
+     dsu s(n+1);
+     
+     for(auto&k:qq){
+         
+         int wt=k.first,idx=k.second;
+         
+         while(i<sz and edges[i][2]<=wt){
+             s.merge(edges[i][0],edges[i][1]);
+             i++;
+         }
+        // cout<<wt<<" "<<idx<<" "<<s.get()<<endl;
+         ans[idx]=s.get();
+     }
+     
+     return ans;
+ }
+};
