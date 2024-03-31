@@ -1,0 +1,18 @@
+void fun(Node* root,int n,int& ans){
+    if(root == NULL) return;
+    if(root->key <= n ){ 
+        ans = max(ans,root->key);
+        if(root->right) fun(root->right,n,ans);
+    }
+    else if(root->left) fun(root->left,n,ans); 
+}
+
+class Solution {
+  public:
+    int findMaxForN(Node* root, int n) {
+         int ans = INT_MIN;
+         fun(root, n,ans);
+         if(ans == INT_MIN) return -1; 
+         return ans;
+    }
+};
