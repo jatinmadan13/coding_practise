@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    /*You are requried to complete this method */
+   
+    long long max_Books(int a[], int n, int k) {
+        // Your code here
+         long long sum=0, temp=0;
+       for(int i=0; i<n ; i++)
+        {
+            if(a[i]<=k)
+             {
+                 temp+=a[i];
+             }
+             else
+              {
+                  sum=max(sum, temp);
+                  temp=0;
+              }
+        }
+        if(temp>sum) return temp;
+        else return sum;
+    }
+};
