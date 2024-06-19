@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    double maxVolume(double P, double A) {
+        double discriminant = P * P - 24 * A;
+    if (discriminant < 0) {
+         return -1; // Returning -1 to indicate an error
+    }
+    double length = (P - sqrt(discriminant)) / 12;
+    double height = P / 4 - 2 * length;
+    double volume = length * length * height;
+
+    // Round off to 2 decimal places
+    volume = round(volume * 100) / 100;
+
+    return volume;
+}
+};
