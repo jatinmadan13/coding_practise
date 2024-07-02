@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    bool compute(Node* head) 
+    {
+        string s = "";
+        Node *temp = head;
+        while(temp)
+        {
+            s += temp->data;
+            temp = temp->next;
+        }
+        int len = s.size();
+        int i = 0, j = len-1;
+        while(i <= j)
+        {
+            if(s[i] != s[j])
+                return false;
+            i++;
+            j--;
+        }
+        return true;
+        // Your code goes here
+    }
+};
